@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/oliveirajne/sign-in-up-nodejs.git"
   },
-  "author": "",
+  "author": "oliveirajne@gmail.com",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/oliveirajne/sign-in-up-nodejs/issues"
@@ -21,6 +21,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "nodemon": "^2.0.6"
+    "mongoose": "^5.10.12",
+    "nodemon": "^2.0.6",
+    "uuid": "^8.3.1"
   }
 }
