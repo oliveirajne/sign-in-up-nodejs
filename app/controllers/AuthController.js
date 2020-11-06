@@ -2,14 +2,31 @@ const User = require('../models/User');
 
 module.exports = {
 
-    async create(req,res) {
+    async signUp(req,res) {
         try {
-            const user = await User.create(req.body);
-    
-            return res.send({ user });
+            const email = await User.find({ email: req.body.email });
+
+            if (email) {
+                return res.status(409).send({ mensagem: 'E-mail já existente'});
+            }
+            else {
+                const user = await User.create(req.body);
+                return res.send({ user });
+            }
     
         }catch (err) {
-            return res.status(400).send({ error: 'Registration failed' });
+            return res.status(500).send({ mensagem: 'Erro do servidor' });
+        }
+    },
+
+    async signIn(req,res) {
+        try {
+
+            const email = await User.find({ email: req.body.email });
+
+        } catch (err) {
+            return res.status(500).send({ mensagem: 'Erro do servidor' });
+            
         }
     }
 

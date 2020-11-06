@@ -8,7 +8,7 @@ const routes = express.Router();
 routes.get('/', (req, res) => {
     res.send('OK');
 });
-routes.post('/signup', AuthController.create);
+routes.post('/signup', AuthController.signUp);
 
 
 
