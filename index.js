@@ -12,7 +12,6 @@ mongoose.connect('mongodb+srv://usersky:passwordsky@cluster0.20icw.mongodb.net/d
 });
 
 app.use(express.json());
-
 app.use(cors());
 
 app.use(routes);

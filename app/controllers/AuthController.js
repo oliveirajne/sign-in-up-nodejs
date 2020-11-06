@@ -1,17 +1,23 @@
+const jwt = require('jsonwebtoken');
+
 const User = require('../models/User');
+const config = require('../config/authconfig');
 
 module.exports = {
 
     async signUp(req,res) {
         try {
-            const email = await User.find({ email: req.body.email });
+            const user = await User.findOne({ email: req.body.email });
 
-            if (email) {
+
+
+            if (user) {
                 return res.status(409).send({ mensagem: 'E-mail já existente'});
             }
             else {
                 const user = await User.create(req.body);
-                return res.send({ user });
+                const token = jwt.sign({ id: user._id }, config.secret);
+                return res.send({ user, token });
             }
     
         }catch (err) {
@@ -45,13 +51,12 @@ module.exports = {
 
     async buscar(req,res) {
         try {
-            if (!req.headers.authorization) {
-                return res.status(403).send({ mensagem: 'Não autorizado'});
+
+            const user = await User.findOne({ _id: req.params.id });
+
+            if (user) {
+                return res.send({ user });
             }
-
-            const token = req.headers.authorization.split("Bearer ");
-
-
             
         } catch (err) {
             return res.status(500).send({ mensagem: 'Erro do servidor' });    
