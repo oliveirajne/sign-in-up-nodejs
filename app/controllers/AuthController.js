@@ -39,9 +39,11 @@ module.exports = {
             const user = await User.findOne({ email: req.body.email });
             
             if ( user ) {
+                const result = bcrypt.compareSync(req.body.senha, user.hash);
 
-                if ( user.senha === req.body.senha ) {
-                    return res.send({ user });
+                if ( result ) {
+                    const token = jwt.sign({ id: user._id }, config.secret);
+                    return res.send({ user, token });
                 }
                 else {
                     return res.status(401).send({ mensagem: 'Usuário e/ou senha inválidos' });
@@ -60,10 +62,20 @@ module.exports = {
     async buscar(req,res) {
         try {
 
-            const user = await User.findOne({ _id: req.params.id });
+            const user = await User.findById(req.params.id);
 
             if (user) {
+
+                let tempo = new Date() - user.ultimo_login;
+
+                if ( tempo > 1800000 ) {
+                    return res.status(401).send({ mensagem: 'Sessão inválida' });    
+                }
+
                 return res.send({ user });
+            }
+            else {
+                return res.status(404).send({ mensagem: 'Usuário não encontrado' });    
             }
             
         } catch (err) {
