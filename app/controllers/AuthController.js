@@ -41,6 +41,21 @@ module.exports = {
             return res.status(500).send({ mensagem: 'Erro do servidor' });
             
         }
+    },
+
+    async buscar(req,res) {
+        try {
+            if (!req.headers.authorization) {
+                return res.status(403).send({ mensagem: 'Não autorizado'});
+            }
+
+            const token = req.headers.authorization.split("Bearer ");
+
+
+            
+        } catch (err) {
+            return res.status(500).send({ mensagem: 'Erro do servidor' });    
+        }
     }
 
 }

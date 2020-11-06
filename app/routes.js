@@ -10,6 +10,7 @@ routes.get('/', (req, res) => {
 });
 routes.post('/signup', AuthController.signUp);
 routes.post('/signin', AuthController.signIn);
+routes.get('/buscar', AuthController.buscar);
 
 
 
