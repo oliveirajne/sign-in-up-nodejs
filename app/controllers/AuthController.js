@@ -36,7 +36,7 @@ module.exports = {
     async signIn(req,res) {
         try {
 
-            const user = await User.findOne({ email: req.body.email });
+            const user = await User.findOneAndUpdate({ email: req.body.email }, { ultimo_login: new Date() }); 
             
             if ( user ) {
                 const result = bcrypt.compareSync(req.body.senha, user.hash);
