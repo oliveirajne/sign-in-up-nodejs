@@ -9,6 +9,7 @@ routes.get('/', (req, res) => {
     res.send('OK');
 });
 routes.post('/signup', AuthController.signUp);
+routes.post('/signin', AuthController.signIn);
 
 
 
