@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const User = require('../models/User');
 const config = require('../config/authconfig');
@@ -9,13 +10,20 @@ module.exports = {
         try {
             const user = await User.findOne({ email: req.body.email });
 
-
-
             if (user) {
                 return res.status(409).send({ mensagem: 'E-mail já existente'});
             }
             else {
-                const user = await User.create(req.body);
+                let salt = bcrypt.genSaltSync(10);
+                let hash = bcrypt.hashSync(req.body.senha, salt);
+
+                const userobj = {
+                    nome: req.body.nome,
+                    email: req.body.email,
+                    telefones: req.body.telefones,
+                    hash: hash
+                }
+                const user = await User.create(userobj);
                 const token = jwt.sign({ id: user._id }, config.secret);
                 return res.send({ user, token });
             }
