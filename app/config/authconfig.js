@@ -1,3 +1,3 @@
 module.exports = {
-    secret: "sky"
+  secret: 'sky',
 };
